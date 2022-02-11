@@ -1,4 +1,3 @@
-ARG WEBHOOK_VERSION
 FROM alpine:3.7 as ts
 ENV TS_VERSION 1.0
 
@@ -10,7 +9,7 @@ RUN apk add -U wget make gcc linux-headers g++ && \
     make && \
     mv ts /ts
 
-FROM almir/webhook:${WEBHOOK_VERSION} as webhook
+FROM almir/webhook:2.8.0 as webhook
 
 FROM composer/satis
 ARG SATIS_SERVER_VERSION
@@ -46,6 +45,7 @@ RUN ln -s /satis-server/webhook/hooks.json /etc/webhook/hooks.json && \
     ln -s /satis-server/bin/satis-dump.sh /usr/local/bin/satis-dump && \
     ln -s /satis-server/bin/scw-version.sh /usr/local/bin/satis-server-version && \
     ln -s /satis-server/bin/scw-help.sh /usr/local/bin/satis-server-help && \
+    ln -s /satis/vendor/composer/composer/bin/composer /usr/local/bin/composer && \
     ln -s /satis/bin/satis /usr/local/bin/satis && \
     chmod +x /satis-server/bin/*
 
